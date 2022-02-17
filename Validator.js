@@ -13,6 +13,20 @@ const Validator = (obj) => {
     return Validator(obj);
   };
 
+  const minNumber = (minNumber) => {
+    if (typeof obj.value === "number" && obj.value < minNumber) {
+      console.log(`${obj.key} is less than ${minNumber}!`);
+    }
+    return Validator(obj);
+  };
+
+  const maxNumber = (maxNumber) => {
+    if (typeof obj.value === "number" && obj.value > maxNumber) {
+      console.log(`${obj.key} is less than ${maxNumber}!`);
+    }
+    return Validator(obj);
+  };
+
   const isArray = () => {
     if (!Array.isArray(obj.value)) {
       console.log(`${obj.key} is not an array!`);
@@ -32,7 +46,7 @@ const Validator = (obj) => {
   };
 
   const required = () => {
-    if (typeof obj.value === "string" && obj.value === "") {
+    if (obj.value === "" || obj.value === null || obj.value === undefined) {
       console.log(`${obj.key} is required!`);
     }
     return Validator(obj);
@@ -56,6 +70,52 @@ const Validator = (obj) => {
     return Validator(obj);
   };
 
+  const isEmail = (email) => {
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    );
+    if (!isValidEmail) {
+      console.log(`${obj.key} is not valid email address!`);
+    }
+    return Validator(obj);
+  };
+
+  const notNull = () => {
+    if (obj.value === null) {
+      console.log(`${obj.key} should not be null!`);
+    }
+    return Validator(obj);
+  };
+
+  const isPassword = (password) => {
+    // Minimum eight characters, at least one letter and one number:
+
+    // "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+    // Minimum eight characters, at least one letter, one number and one special character:
+
+    // "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+    // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:
+
+    // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+    // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
+
+    // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+    // Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character:
+
+    // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$"
+
+    const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
+      password
+    );
+
+    if (!isValidPassword) {
+      console.log(
+        `${obj.key} is not valid. it must have minimum eight characters, at least one letter and one number!`
+      );
+    }
+    return Validator(obj);
+  };
+
   return {
     isString,
     isNumber,
@@ -64,6 +124,11 @@ const Validator = (obj) => {
     required,
     minLength,
     maxLength,
+    isEmail,
+    notNull,
+    isPassword,
+    minNumber,
+    maxNumber,
   };
 };
 
